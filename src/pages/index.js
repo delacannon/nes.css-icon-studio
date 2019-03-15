@@ -41,8 +41,8 @@ class ColorPicker extends React.Component {
       display: block;
       position: relative;
       display: inline-block;
-      width: 48px;
-      height: 48px;
+      width: 51px;
+      height: 51px;
       border: 2px solid #000;
       //transform: scale(4);
       &::before {
