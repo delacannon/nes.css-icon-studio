@@ -30,8 +30,6 @@ class Container extends Component {
 
 	getTile(x, y, id, color) {
 		let tile = { x: x, y: y, id: id, color: color }
-
-		//console.log({ x: x, y: y, id: id, color: color })
 		this.props.updateTile(tile)
 	}
 

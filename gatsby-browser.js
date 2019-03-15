@@ -4,5 +4,6 @@
  * See: https://www.gatsbyjs.org/docs/browser-apis/
  */
 
+import "nes.css/css/nes.css"
 import wrapWithProvider from "./with-provider"
 export const wrapRootElement = wrapWithProvider

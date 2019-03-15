@@ -16,11 +16,18 @@ const ColorReducer = (state = initialState, action) => {
 				tiles: action.payload,
 			}
 		case "UPDATE_TILE":
-			console.log(action.payload)
 			return {
 				...state,
-				tiles: state.tiles,
+				tiles: state.tiles.map(t => {
+					if (t.id.toString() === action.payload.id.toString()) {
+						let newTile = action.payload
+						return newTile
+					} else {
+						return t
+					}
+				}),
 			}
+
 		default:
 			return state
 	}

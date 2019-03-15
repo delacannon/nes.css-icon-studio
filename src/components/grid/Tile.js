@@ -34,6 +34,7 @@ class Tile extends Component {
 
     return (
       <div
+        key={id}
         style={{
           backgroundColor: `${this.state.color}`,
           border: "1px solid black",

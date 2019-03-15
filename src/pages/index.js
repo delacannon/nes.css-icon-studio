@@ -20,6 +20,7 @@ class ColorPicker extends React.Component {
   }
 
   render() {
+    const { tiles } = this.props
     return (
       <Layout>
         <SketchPicker
@@ -27,13 +28,24 @@ class ColorPicker extends React.Component {
           onChangeComplete={this.handleChangeComplete}
         />
         <Container />
+        <hr />
+        <div className="nes-container">
+          <p className="title">Element</p>
+          {tiles.tiles.map(e => {
+            return (
+              <p>
+                {e.id} {e.color}
+              </p>
+            )
+          })}
+        </div>
       </Layout>
     )
   }
 }
 
-const mapStateToProps = ({ color }) => {
-  return { color }
+const mapStateToProps = ({ color, tiles }) => {
+  return { color, tiles }
 }
 
 export default connect(

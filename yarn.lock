@@ -6991,6 +6991,11 @@ neo-async@^2.5.0:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.0.tgz#b9d15e4d71c6762908654b5183ed38b753340835"
   integrity sha512-MFh0d/Wa7vkKO3Y3LlacqAEeHK0mckVqzDieUKTT+KGxi+zIpeVsFxymkIiRpbpDziHc290Xr9A1O4Om7otoRA==
 
+nes.css@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/nes.css/-/nes.css-2.1.0.tgz#7069f8a9b2fa96a931ec5affadc9bbd3e881466c"
+  integrity sha512-wT4SSxjGkbU0adPo4Oo0dkD2UGv6fOe7mCK1O3E3eTD/8tDUpJsccnqaeZ+3PR+nQtU9/j03R+ztMNYGMeysDw==
+
 next-tick@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
