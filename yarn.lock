@@ -8717,6 +8717,13 @@ react-error-overlay@^3.0.0:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-3.0.0.tgz#c2bc8f4d91f1375b3dad6d75265d51cd5eeaf655"
   integrity sha512-XzgvowFrwDo6TWcpJ/WTiarb9UI6lhA4PMzS7n1joK3sHfBBBOQHUc0U4u57D6DWO9vHv6lVSWx2Q/Ymfyv4hw==
 
+react-grid-system@^4.4.3:
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/react-grid-system/-/react-grid-system-4.4.3.tgz#f0dfc0612eb36d9700ad5ed8b2d72c7617730508"
+  integrity sha512-4Su/j+bpp/tWTg2UsFpKyEZ/FWQ2JzuNfWPQRb2xURsICKJbTynk3Q/tCsEC6yQnjGaxAzGcDILDANkwdFAF4g==
+  dependencies:
+    prop-types "^15.6.2"
+
 react-helmet@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-5.2.0.tgz#a81811df21313a6d55c5f058c4aeba5d6f3d97a7"

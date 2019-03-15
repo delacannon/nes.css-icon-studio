@@ -11,33 +11,33 @@ class Tile extends Component {
   }
 
   onMouseEnter(e) {
-    const { x, y, getTile, id, color } = this.props
+    const { x, y, getTile, id, grid } = this.props
     if (this.props.mouseActive) {
-      getTile(x, y, id, color.color.background)
+      getTile(x, y, id, grid.color.background)
       this.setState({
-        color: color.color.background,
+        color: grid.color.background,
       })
     }
   }
 
   onMouseDown(e) {
-    const { x, y, getTile, id, color } = this.props
+    const { x, y, getTile, id, grid } = this.props
 
-    getTile(x, y, id, color.color.background)
+    getTile(x, y, id, grid.color.background)
     this.setState({
-      color: color.color.background,
+      color: grid.color.background,
     })
   }
 
   render() {
-    const { x, y, getTile, color, id } = this.props
+    const { x, y, getTile, id, grid } = this.props
 
     return (
       <div
         key={id}
         style={{
           backgroundColor: `${this.state.color}`,
-          border: "1px solid black",
+          border: `${!grid.grid ? 0 : 2}px solid black`,
         }}
         x={x}
         y={y}
@@ -49,8 +49,8 @@ class Tile extends Component {
   }
 }
 
-const mapStateToProps = ({ color }) => {
-  return { color }
+const mapStateToProps = ({ grid }) => {
+  return { grid }
 }
 
 export default connect(

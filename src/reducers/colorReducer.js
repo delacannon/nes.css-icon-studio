@@ -1,8 +1,9 @@
 const initialState = {
 	color: "",
 	tiles: [],
-	rows: 18,
+	rows: 8,
 	cols: 8,
+	grid: true,
 }
 
 const ColorReducer = (state = initialState, action) => {
@@ -16,6 +17,27 @@ const ColorReducer = (state = initialState, action) => {
 			return {
 				...state,
 				tiles: action.payload,
+			}
+		case "SHOW_GRID":
+			return {
+				...state,
+				grid: action.payload,
+			}
+		case "ADD_ONE_ROW":
+			return {
+				...state,
+				rows: state.rows < 16 ? state.rows + action.payload : state.rows,
+			}
+		case "ADD_ONE_COL":
+			return {
+				...state,
+				cols: state.cols < 16 ? state.cols + action.payload : state.cols,
+			}
+		case "RESET_GRID":
+			return {
+				...state,
+				cols: 8,
+				rows: 8,
 			}
 		case "UPDATE_TILE":
 			return {

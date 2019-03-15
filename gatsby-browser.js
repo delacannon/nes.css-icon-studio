@@ -5,5 +5,6 @@
  */
 
 import "nes.css/css/nes.css"
+import "./font.css"
 import wrapWithProvider from "./with-provider"
 export const wrapRootElement = wrapWithProvider

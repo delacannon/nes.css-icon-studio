@@ -4,7 +4,7 @@ import Tile from "./Tile"
 import { connect } from "react-redux"
 import { getTiles, updateTile } from "../../actions"
 
-class Container extends Component {
+class GridCanvas extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -20,10 +20,10 @@ class Container extends Component {
 		let cols = ""
 		let rows = ""
 
-		for (let i = 0; i < this.props.cols.cols; i++) {
+		for (let i = 0; i < this.props.grid.cols; i++) {
 			cols += "32px "
 		}
-		for (let i = 0; i < this.props.rows.rows; i++) {
+		for (let i = 0; i < this.props.grid.rows; i++) {
 			rows += "32px "
 		}
 
@@ -36,8 +36,8 @@ class Container extends Component {
 	renderTiles() {
 		const m = []
 		let id = 0
-		for (var i = 1; i < this.props.rows.rows + 1; i++) {
-			for (var j = 1; j < this.props.cols.cols + 1; j++) {
+		for (var i = 1; i < this.props.grid.rows + 1; i++) {
+			for (var j = 1; j < this.props.grid.cols + 1; j++) {
 				m.push({ x: j, y: i, id: id, color: "transparent" })
 				id++
 			}
@@ -63,19 +63,33 @@ class Container extends Component {
 	}
 
 	render() {
-		const { tiles } = this.props
+		const { grid } = this.props
+
+		let cols = ""
+		let rows = ""
+
+		for (let i = 0; i < this.props.grid.cols; i++) {
+			cols += "32px "
+		}
+		for (let i = 0; i < this.props.grid.rows; i++) {
+			rows += "32px "
+		}
+
+		this.renderTiles()
+
 		return (
 			<div
 				style={{
 					display: "grid",
-					gridTemplateColumns: `${this.state.cols}`,
-					gridTemplateRows: `${this.state.rows}`,
+					gridTemplateColumns: `${cols}`,
+					gridTemplateRows: `${rows}`,
 					justifyContent: "center",
 				}}
 				onMouseDown={this.onMouseDown.bind(this)}
 				onMouseUp={this.onMouseUp.bind(this)}
+				renderTiles={this.renderTiles()}
 			>
-				{tiles.tiles.map((t, i) => (
+				{grid.tiles.map((t, i) => (
 					<Tile
 						key={i}
 						x={t.x}
@@ -90,11 +104,11 @@ class Container extends Component {
 	}
 }
 
-const mapStateToProps = ({ tiles, rows, cols }) => {
-	return { tiles, rows, cols }
+const mapStateToProps = ({ grid }) => {
+	return { grid }
 }
 
 export default connect(
 	mapStateToProps,
 	{ getTiles, updateTile }
-)(Container)
+)(GridCanvas)
