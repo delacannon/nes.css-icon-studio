@@ -1,6 +1,8 @@
 const initialState = {
 	color: "",
 	tiles: [],
+	rows: 18,
+	cols: 8,
 }
 
 const ColorReducer = (state = initialState, action) => {

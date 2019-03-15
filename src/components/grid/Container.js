@@ -9,18 +9,35 @@ class Container extends Component {
 		super(props)
 		this.state = {
 			mouseActive: false,
+			cols: "",
+			rows: "",
 		}
 	}
 
 	componentDidMount() {
 		this.props.getTiles(this.renderTiles())
+
+		let cols = ""
+		let rows = ""
+
+		for (let i = 0; i < this.props.cols.cols; i++) {
+			cols += "32px "
+		}
+		for (let i = 0; i < this.props.rows.rows; i++) {
+			rows += "32px "
+		}
+
+		this.setState({
+			cols,
+			rows,
+		})
 	}
 
 	renderTiles() {
 		const m = []
 		let id = 0
-		for (var i = 1; i < 9; i++) {
-			for (var j = 1; j < 9; j++) {
+		for (var i = 1; i < this.props.rows.rows + 1; i++) {
+			for (var j = 1; j < this.props.cols.cols + 1; j++) {
 				m.push({ x: j, y: i, id: id, color: "transparent" })
 				id++
 			}
@@ -51,8 +68,8 @@ class Container extends Component {
 			<div
 				style={{
 					display: "grid",
-					gridTemplateColumns: "32px 32px 32px 32px 32px 32px 32px 32px",
-					gridTemplateRows: "32px 32px 32px 32px 32px 32px 32px 32px",
+					gridTemplateColumns: `${this.state.cols}`,
+					gridTemplateRows: `${this.state.rows}`,
 					justifyContent: "center",
 				}}
 				onMouseDown={this.onMouseDown.bind(this)}
@@ -73,8 +90,8 @@ class Container extends Component {
 	}
 }
 
-const mapStateToProps = ({ tiles }) => {
-	return { tiles }
+const mapStateToProps = ({ tiles, rows, cols }) => {
+	return { tiles, rows, cols }
 }
 
 export default connect(

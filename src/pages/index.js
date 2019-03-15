@@ -35,14 +35,14 @@ class ColorPicker extends React.Component {
   }
 
   render() {
-    const { tiles } = this.props
+    const { tiles, cols, rows } = this.props
 
     const Canvas = styled.div`
       display: block;
       position: relative;
       display: inline-block;
-      width: 51px;
-      height: 51px;
+      width: ${cols.cols * 6 + 3}px;
+      height: ${rows.rows * 6 + 3}px;
       border: 2px solid #000;
       //transform: scale(4);
       &::before {
@@ -112,8 +112,8 @@ const Container = styled.div`
   }
 }
 
-const mapStateToProps = ({ color, tiles }) => {
-  return { color, tiles }
+const mapStateToProps = ({ color, tiles, rows, cols }) => {
+  return { color, tiles, rows, cols }
 }
 
 export default connect(
