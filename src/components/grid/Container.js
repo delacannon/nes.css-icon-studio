@@ -19,9 +19,9 @@ class Container extends Component {
 	renderTiles() {
 		const m = []
 		let id = 0
-		for (var i = 0; i < 8; i++) {
-			for (var j = 0; j < 8; j++) {
-				m.push({ x: i, y: j, id: id, color: "transparent" })
+		for (var i = 1; i < 9; i++) {
+			for (var j = 1; j < 9; j++) {
+				m.push({ x: j, y: i, id: id, color: "transparent" })
 				id++
 			}
 		}
@@ -29,7 +29,7 @@ class Container extends Component {
 	}
 
 	getTile(x, y, id, color) {
-		let tile = { x: x, y: y, id: id, color: color }
+		let tile = { x, y, id, color }
 		this.props.updateTile(tile)
 	}
 
