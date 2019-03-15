@@ -11,26 +11,26 @@ class Tile extends Component {
   }
 
   onMouseEnter(e) {
-    const { x, y, getTile, id } = this.props
+    const { x, y, getTile, id, color } = this.props
     if (this.props.mouseActive) {
-      getTile(x, y, id, this.state.color)
+      getTile(x, y, id, color.color.background)
       this.setState({
-        color: this.props.color.color.background,
+        color: color.color.background,
       })
     }
   }
 
   onMouseDown(e) {
-    const { x, y, getTile, id } = this.props
+    const { x, y, getTile, id, color } = this.props
 
-    getTile(x, y, id, this.state.color)
+    getTile(x, y, id, color.color.background)
     this.setState({
-      color: this.props.color.color.background,
+      color: color.color.background,
     })
   }
 
   render() {
-    const { x, y, getTile, id } = this.props
+    const { x, y, getTile, color, id } = this.props
 
     return (
       <div
@@ -41,13 +41,6 @@ class Tile extends Component {
         x={x}
         y={y}
         id={id}
-        color={this.state.color}
-        /* onClick={() => {
-          getTile(x, y, id, this.state.color)
-          this.setState({
-            color: this.props.color.color.background,
-          })
-        }}*/
         onMouseEnter={this.onMouseEnter.bind(this)}
         onMouseDown={this.onMouseDown.bind(this)}
       />

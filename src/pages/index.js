@@ -11,13 +11,15 @@ import { connect } from "react-redux"
 import { changeColor } from "../actions"
 
 class ColorPicker extends React.Component {
+  componentDidMount() {
+    this.props.changeColor({ background: "#000000" })
+  }
+
   handleChangeComplete = color => {
-    //this.setState({ background: color.hex })
     this.props.changeColor({ background: color.hex })
   }
 
   render() {
-    console.log(this.props.color)
     return (
       <Layout>
         <SketchPicker
