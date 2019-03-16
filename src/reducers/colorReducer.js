@@ -26,12 +26,12 @@ const ColorReducer = (state = initialState, action) => {
 		case "ADD_ONE_ROW":
 			return {
 				...state,
-				rows: state.rows < 16 ? state.rows + action.payload : state.rows,
+				rows: action.payload,
 			}
 		case "ADD_ONE_COL":
 			return {
 				...state,
-				cols: state.cols < 16 ? state.cols + action.payload : state.cols,
+				cols: action.payload,
 			}
 		case "RESET_GRID":
 			return {

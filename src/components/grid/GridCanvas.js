@@ -75,8 +75,6 @@ class GridCanvas extends Component {
 			rows += "32px "
 		}
 
-		this.renderTiles()
-
 		return (
 			<div
 				style={{
@@ -87,7 +85,6 @@ class GridCanvas extends Component {
 				}}
 				onMouseDown={this.onMouseDown.bind(this)}
 				onMouseUp={this.onMouseUp.bind(this)}
-				renderTiles={this.renderTiles()}
 			>
 				{grid.tiles.map((t, i) => (
 					<Tile

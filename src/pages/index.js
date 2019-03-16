@@ -22,6 +22,15 @@ import { css } from "@emotion/core"
 import { Row, Col } from "react-grid-system"
 
 class ColorPicker extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      showGrid: false,
+      cols: 8,
+      rows: 8,
+    }
+  }
   componentDidMount() {
     this.props.changeColor({ background: "#000000" })
   }
@@ -40,6 +49,10 @@ class ColorPicker extends React.Component {
     })
 
     return str.toString()
+  }
+
+  changeHandler(event) {
+    this.setState({ [event.target.name]: event.target.value })
   }
 
   render() {
@@ -93,11 +106,64 @@ class ColorPicker extends React.Component {
         <br />
         <Row>
           <Col lg={8} md={6} xs={12} sm={12}>
-            <div className="nes-container with-title is-rounded">
-              <p className="title">
-                Canvas {grid.cols}x{grid.rows}{" "}
-              </p>
-              <GridCanvas />
+            <div className="nes-container with-title is-rounded is-centered">
+              {!this.state.gridSize && (
+                <div>
+                  <div className="nes-field is-inline">
+                    <label for="inline_field">Rows</label>
+                    <input
+                      type="number"
+                      className="nes-input"
+                      name="rows"
+                      placeholder="8"
+                      onChange={this.changeHandler.bind(this)}
+                    />
+                  </div>
+                  <br />
+                  <div className="nes-field is-inline">
+                    <label for="inline_field">Cols</label>
+                    <input
+                      type="number"
+                      className="nes-input"
+                      name="cols"
+                      placeholder="8"
+                      onChange={this.changeHandler.bind(this)}
+                    />
+                    <br />
+                  </div>
+                  <br />
+                  <Button
+                    type="button"
+                    className="nes-btn is-primary"
+                    onClick={() => {
+                      this.setState({
+                        gridSize: !this.state.gridSize,
+                      })
+                      //console.log(this.state.rows, this.state.cols)
+
+                      this.props.addOneRow(parseInt(this.state.rows))
+                      this.props.addOneCol(parseInt(this.state.cols))
+                    }}
+                  >
+                    {" "}
+                    Set Grid Size
+                  </Button>
+                  <br />
+                  <p>
+                    <span className="nes-text is-warning">
+                      Max grid size will be 16 x 16
+                    </span>
+                  </p>
+                </div>
+              )}
+              {this.state.gridSize && (
+                <div>
+                  <p className="title">
+                    Canvas {grid.cols}x{grid.rows}{" "}
+                  </p>
+                  <GridCanvas />
+                </div>
+              )}
             </div>
           </Col>
           <Col lg={4} md={6} xs={12} sm={12}>
@@ -130,42 +196,22 @@ class ColorPicker extends React.Component {
             </Button>
             <Button
               type="button"
-              className="nes-btn is-primary"
-              onClick={() => {
-                this.props.addOneRow(1)
-              }}
-            >
-              +1R
-            </Button>
-            <Button type="button" className="nes-btn ">
-              -1R
-            </Button>
-            <Button
-              type="button"
-              className="nes-btn is-primary"
-              onClick={() => {
-                this.props.addOneCol(1)
-              }}
-            >
-              +1C
-            </Button>
-            <Button type="button" className="nes-btn">
-              -1C
-            </Button>
-            <Button
-              type="button"
               className="nes-btn is-warning"
               onClick={() => {
+                this.props.addOneRow(8)
+                this.props.addOneCol(8)
                 this.props.resetGrid()
               }}
             >
               Reset
             </Button>
           </Col>
-          <Col lg={3} md={4} xs={6} sm={6}>
-            <button type="button" className="nes-btn is-success">
-              Copy CSS
-            </button>
+          <Col lg={4} md={4} xs={6} sm={6}>
+            <div className="nes-container" style={{ textAlign: "center" }}>
+              <button type="button" className="nes-btn is-success">
+                Copy CSS
+              </button>
+            </div>
           </Col>
         </Row>
         <br />
