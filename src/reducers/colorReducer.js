@@ -34,8 +34,19 @@ const ColorReducer = (state = initialState, action) => {
 				cols: action.payload,
 			}
 		case "RESET_GRID":
+			const m = []
+			let id = 0
+			for (var i = 1; i < 9; i++) {
+				for (var j = 1; j < 9; j++) {
+					m.push({ x: j, y: i, id: id, color: "transparent" })
+					id++
+				}
+			}
+			const tiles = m
+
 			return {
 				...state,
+				tiles,
 				cols: 8,
 				rows: 8,
 			}

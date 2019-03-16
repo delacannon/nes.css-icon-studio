@@ -7,6 +7,7 @@ class Tile extends Component {
     this.state = {
       selected: false,
       color: "transparent",
+      rightClick: false,
     }
   }
 
@@ -44,6 +45,12 @@ class Tile extends Component {
         id={id}
         onMouseEnter={this.onMouseEnter.bind(this)}
         onMouseDown={this.onMouseDown.bind(this)}
+        onContextMenu={e => {
+          e.preventDefault()
+          this.setState({
+            rightClick: true,
+          })
+        }}
       />
     )
   }

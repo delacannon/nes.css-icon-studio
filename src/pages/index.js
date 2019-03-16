@@ -19,6 +19,8 @@ import {
 import styled from "@emotion/styled"
 import { css } from "@emotion/core"
 
+import slugify from "slugify"
+
 import { Row, Col } from "react-grid-system"
 
 class ColorPicker extends React.Component {
@@ -29,6 +31,8 @@ class ColorPicker extends React.Component {
       showGrid: false,
       cols: 8,
       rows: 8,
+      name: "test",
+      disabled: false,
     }
   }
   componentDidMount() {
@@ -43,9 +47,21 @@ class ColorPicker extends React.Component {
     var str = ""
 
     tiles.forEach((e, i) => {
-      str += `${e.x * 6}px ${e.y * 6}px ${
+      str += ` ${e.x * 6}px ${e.y * 6}px${
         e.color === "transparent" ? `` : e.color
-      }${i === tiles.length - 1 ? `` : `,`}`
+      }${i === tiles.length - 1 ? `;` : `,`}`
+    })
+
+    return str.toString()
+  }
+
+  renderTextMoz(tiles) {
+    var str = ""
+
+    tiles.forEach((e, i) => {
+      str += ` ${e.x * 6}px ${e.y * 6}px 0 0.020em${
+        e.color === "transparent" ? `` : e.color
+      }${i === tiles.length - 1 ? `;` : `,`}`
     })
 
     return str.toString()
@@ -53,6 +69,31 @@ class ColorPicker extends React.Component {
 
   changeHandler(event) {
     this.setState({ [event.target.name]: event.target.value })
+  }
+
+  checkGridSize() {
+    if (this.state.cols > 16) {
+      this.setState({
+        cols: 16,
+      })
+    }
+
+    if (this.state.rows > 16) {
+      this.setState({
+        rows: 16,
+      })
+    }
+    if (this.state.cols < 1) {
+      this.setState({
+        cols: 1,
+      })
+    }
+
+    if (this.state.rows < 1) {
+      this.setState({
+        rows: 1,
+      })
+    }
   }
 
   render() {
@@ -82,7 +123,7 @@ class ColorPicker extends React.Component {
     const Button = styled.button`
       margin-left: 8px;
     `
-
+    this.checkGridSize()
     return (
       <Layout>
         <Row>
@@ -94,8 +135,8 @@ class ColorPicker extends React.Component {
                 <span className="nes-text is-primary">
                   NES.css Pixelart Studio
                 </span>
-                . Build your own CSS piexl art graphics and animations ready to
-                use with{" "}
+                . Build your own CSS piexl art graphics and icons ready to use
+                with{" "}
                 <a href="https://github.com/nostalgic-css/NES.css?ref=devawesome">
                   <span className="nes-text is-success">nes.css</span>
                 </a>
@@ -107,12 +148,19 @@ class ColorPicker extends React.Component {
         <Row>
           <Col lg={8} md={6} xs={12} sm={12}>
             <div className="nes-container with-title is-rounded is-centered">
+              <p className="title">
+                {!this.state.gridSize
+                  ? `Set Grid Size`
+                  : `Grid ${grid.cols}x${grid.rows}`}
+              </p>
               {!this.state.gridSize && (
                 <div>
                   <div className="nes-field is-inline">
                     <label for="inline_field">Rows</label>
                     <input
-                      type="number"
+                      type="text"
+                      pattern="\d*"
+                      maxlength="2"
                       className="nes-input"
                       name="rows"
                       placeholder="8"
@@ -123,8 +171,10 @@ class ColorPicker extends React.Component {
                   <div className="nes-field is-inline">
                     <label for="inline_field">Cols</label>
                     <input
-                      type="number"
+                      type="text"
                       className="nes-input"
+                      pattern="\d*"
+                      maxlength="2"
                       name="cols"
                       placeholder="8"
                       onChange={this.changeHandler.bind(this)}
@@ -149,20 +199,18 @@ class ColorPicker extends React.Component {
                     Set Grid Size
                   </Button>
                   <br />
+                  <br />
                   <p>
-                    <span className="nes-text is-warning">
+                    <span className="nes-text is-primary">
                       Max grid size will be 16 x 16
                     </span>
                   </p>
                 </div>
               )}
               {this.state.gridSize && (
-                <div>
-                  <p className="title">
-                    Canvas {grid.cols}x{grid.rows}{" "}
-                  </p>
+                <span>
                   <GridCanvas />
-                </div>
+                </span>
               )}
             </div>
           </Col>
@@ -198,8 +246,9 @@ class ColorPicker extends React.Component {
               type="button"
               className="nes-btn is-warning"
               onClick={() => {
-                this.props.addOneRow(8)
-                this.props.addOneCol(8)
+                this.setState({
+                  gridSize: !this.state.gridSize,
+                })
                 this.props.resetGrid()
               }}
             >
@@ -223,6 +272,8 @@ class ColorPicker extends React.Component {
                 type="text"
                 className="nes-input"
                 placeholder="sprite-name"
+                name="name"
+                onChange={this.changeHandler.bind(this)}
               />
             </div>
           </Col>
@@ -235,13 +286,50 @@ class ColorPicker extends React.Component {
               <p className="title">Sprite CSS Code</p>
 
               <p id="text">
-                {`nes-test {position: relative;\ndisplay: inline-block; width: 48px; height: 48px;}\n\nnes-test::before {\nposition: absolute;\ntop: -6px;\nleft: -6px;\ncontent: "";\nbackground: transparent;\nwidth: 6px;\nheight: 6px;\ncolor: #f81c2f;\nbox-shadow: ${this.renderText(
-                  grid.tiles
-                )} }`}
+                {`.nes-${slugify(this.state.name.toLowerCase(), "-")} 
+                    {
+                      position: relative;
+                      display: inline-block;
+                      width: 48px;
+                      height: 48px;
+                    }
+                    
+                    .nes-${slugify(this.state.name.toLowerCase(), "-")}::before 
+                    {
+                      position: absolute;
+                      top: -6px;
+                      left: -6px;
+                      content: "";
+                      background: transparent;
+                      width: 6px;
+                      height: 6px;
+                      color: transparent;
+                      box-shadow: ${this.renderText(grid.tiles)} 
+                    }
+
+                    @supports (-moz-appearance: meterbar) {
+                      .nes-${slugify(
+                        this.state.name.toLowerCase(),
+                        "-"
+                      )}::before {
+                        box-shadow: ${this.renderTextMoz(grid.tiles)} 
+                      }
+                    }
+                    
+
+                `}
               </p>
             </div>
           </Col>
         </Row>
+        <br />
+        <div className="nes-container with-title">
+          <p className="title">Examples</p>
+          <div className="icon-list">
+            <i className="nes-phone" />
+            <i className="nes-test" />
+          </div>
+        </div>
       </Layout>
     )
   }
