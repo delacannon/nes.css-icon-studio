@@ -290,8 +290,8 @@ class ColorPicker extends React.Component {
                     {
                       position: relative;
                       display: inline-block;
-                      width: 48px;
-                      height: 48px;
+                      width: ${grid.cols * 6 + 3}px;
+                      height: ${grid.rows * 6 + 3}px;
                     }
                     
                     .nes-${slugify(this.state.name.toLowerCase(), "-")}::before 
