@@ -283,42 +283,44 @@ class ColorPicker extends React.Component {
         <Row>
           <Col>
             <div className="nes-container with-title is-dark">
-              <p className="title">Sprite CSS Code</p>
-
-              <p id="text">
-                {`.nes-${slugify(this.state.name.toLowerCase(), "-")} 
-                    {
-                      position: relative;
-                      display: inline-block;
-                      width: ${grid.cols * 6 + 3}px;
-                      height: ${grid.rows * 6 + 3}px;
-                    }
-                    
-                    .nes-${slugify(this.state.name.toLowerCase(), "-")}::before 
-                    {
-                      position: absolute;
-                      top: -6px;
-                      left: -6px;
-                      content: "";
-                      background: transparent;
-                      width: 6px;
-                      height: 6px;
-                      color: transparent;
-                      box-shadow: ${this.renderText(grid.tiles)} 
-                    }
-
-                    @supports (-moz-appearance: meterbar) {
-                      .nes-${slugify(
+              <p className="title">Css Output</p>
+              <textarea
+                className="nes-textarea is-dark"
+                rows="20"
+                cols="50"
+                value={`.nes-${slugify(
+                  this.state.name.toLowerCase(),
+                  "-"
+                )}{\nposition: relative;\ndisplay: inline-block;\nwidth: ${grid.cols *
+                  6}px;\nheight: ${grid.rows * 6}px;\n}
+                    \n.nes-${slugify(
+                      this.state.name.toLowerCase(),
+                      "-"
+                    )}::before 
+                    \n{
+                     \nposition: absolute;
+                      \ntop: -6px;
+                      \nleft: -6px;
+                      \ncontent: "";
+                      \nbackground: transparent;
+                      \nwidth: 6px;
+                      \nheight: 6px;
+                      \ncolor: transparent;
+                      \nbox-shadow: ${this.renderText(grid.tiles)} 
+                   \n}
+                   \n
+                    \n@supports (-moz-appearance: meterbar) {
+                      \n.nes-${slugify(
                         this.state.name.toLowerCase(),
                         "-"
                       )}::before {
-                        box-shadow: ${this.renderTextMoz(grid.tiles)} 
-                      }
-                    }
-                    
+                        \nbox-shadow: ${this.renderTextMoz(grid.tiles)} 
+                      \n}
+                    \n}
+                    \n
 
-                `}
-              </p>
+                `.trim()}
+              />
             </div>
           </Col>
         </Row>
