@@ -33,6 +33,8 @@ class ColorPicker extends React.Component {
       rows: 8,
       name: "test",
       disabled: false,
+      isSprite: "true",
+      tileSize:6,
     }
   }
   componentDidMount() {
@@ -47,7 +49,7 @@ class ColorPicker extends React.Component {
     var str = ""
 
     tiles.forEach((e, i) => {
-      str += ` ${e.x * 6}px ${e.y * 6}px${
+      str += ` ${e.x * this.state.tileSize}px ${e.y * this.state.tileSize}px${
         e.color === "transparent" ? `` : e.color
       }${i === tiles.length - 1 ? `;` : `,`}`
     })
@@ -59,7 +61,7 @@ class ColorPicker extends React.Component {
     var str = ""
 
     tiles.forEach((e, i) => {
-      str += ` ${e.x * 6}px ${e.y * 6}px 0 0.020em${
+      str += ` ${e.x * this.state.tileSize}px ${e.y * this.state.tileSize}px 0 0.020em${
         e.color === "transparent" ? `` : e.color
       }${i === tiles.length - 1 ? `;` : `,`}`
     })
@@ -67,9 +69,11 @@ class ColorPicker extends React.Component {
     return str.toString()
   }
 
-  changeHandler(event) {
-    this.setState({ [event.target.name]: event.target.value })
+  changeHandler(e) {
+    this.setState({ [e.target.name]: e.target.value })
   }
+
+ 
 
   checkGridSize() {
     if (this.state.cols > 16) {
@@ -98,6 +102,7 @@ class ColorPicker extends React.Component {
 
   render() {
     const { grid } = this.props
+    const {isSprite, gridSize ,tileSize} =this.state
 
     const Canvas = styled.div`
       display: block;
@@ -133,7 +138,7 @@ class ColorPicker extends React.Component {
               <p>
                 Welcome to{" "}
                 <span className="nes-text is-primary">
-                  NES.css Pixelart Studio
+                  NES.css Pixelbox Studio
                 </span>
                 . Build your own CSS piexl art graphics and icons ready to use
                 with{" "}
@@ -149,11 +154,11 @@ class ColorPicker extends React.Component {
           <Col lg={8} md={6} xs={12} sm={12}>
             <div className="nes-container with-title is-rounded is-centered">
               <p className="title">
-                {!this.state.gridSize
+                {!gridSize
                   ? `Set Grid Size`
-                  : `Grid ${grid.cols}x${grid.rows}`}
+                  : `${isSprite==="true" ? `Sprite` : `Icon`} Grid ${grid.cols}x${grid.rows}`}
               </p>
-              {!this.state.gridSize && (
+              {!gridSize && (
                 <div>
                   <div className="nes-field is-inline">
                     <label for="inline_field">Rows</label>
@@ -181,13 +186,37 @@ class ColorPicker extends React.Component {
                     />
                     <br />
                   </div>
-                  <br />
+                  <div >
+                  <br/>
+                    <label>
+  <input type="radio" class="nes-radio" name="isSprite" value={true}  onChange={
+    (e) => {this.changeHandler(e)
+    this.setState({
+      tileSize:6
+    })
+  }
+  } />
+  <span>Sprite or</span>
+</label>
+<label>
+  <input type="radio" class="nes-radio" name="isSprite" value={false}  onChange={
+    (e) => {this.changeHandler(e)
+    this.setState({
+      tileSize:1
+    })
+  }
+  }/>
+  <span>Icon</span>
+</label>  
+
+                  </div>
+                  <br/>
                   <Button
                     type="button"
                     className="nes-btn is-primary"
                     onClick={() => {
                       this.setState({
-                        gridSize: !this.state.gridSize,
+                        gridSize: !gridSize,
                       })
                       //console.log(this.state.rows, this.state.cols)
 
@@ -207,7 +236,7 @@ class ColorPicker extends React.Component {
                   </p>
                 </div>
               )}
-              {this.state.gridSize && (
+              {gridSize && (
                 <span>
                   <GridCanvas />
                 </span>
@@ -247,7 +276,7 @@ class ColorPicker extends React.Component {
               className="nes-btn is-warning"
               onClick={() => {
                 this.setState({
-                  gridSize: !this.state.gridSize,
+                  gridSize: !gridSize,
                 })
                 this.props.resetGrid()
               }}
@@ -256,22 +285,20 @@ class ColorPicker extends React.Component {
             </Button>
           </Col>
           <Col lg={4} md={4} xs={6} sm={6}>
-            <div className="nes-container" style={{ textAlign: "center" }}>
               <button type="button" className="nes-btn is-success">
                 Copy CSS
               </button>
-            </div>
           </Col>
         </Row>
         <br />
         <Row>
           <Col lg={12} md={12} xs={12} sm={12}>
             <div className="nes-field">
-              <label>Sprite Name:</label>
+              <label>{isSprite==="true" ? `Sprite Name:` : `Icon Name`}</label>
               <input
                 type="text"
                 className="nes-input"
-                placeholder="sprite-name"
+                placeholder={isSprite==="true" ? `sprite-name:` : `icon`}
                 name="name"
                 onChange={this.changeHandler.bind(this)}
               />
@@ -284,7 +311,7 @@ class ColorPicker extends React.Component {
           <Col>
             <div className="nes-container with-title is-dark">
               <p className="title">Css Output</p>
-              <textarea
+              {isSprite==="true"  && <textarea
                 className="nes-textarea is-dark"
                 rows="20"
                 cols="50"
@@ -292,35 +319,35 @@ class ColorPicker extends React.Component {
                   this.state.name.toLowerCase(),
                   "-"
                 )}{\nposition: relative;\ndisplay: inline-block;\nwidth: ${grid.cols *
-                  6}px;\nheight: ${grid.rows * 6}px;\n}
+                  this.state.tileSize}px;\nheight: ${grid.rows * this.state.tileSize}px;\n}
                     \n.nes-${slugify(
                       this.state.name.toLowerCase(),
                       "-"
-                    )}::before 
-                    \n{
-                     \nposition: absolute;
-                      \ntop: -6px;
-                      \nleft: -6px;
-                      \ncontent: "";
-                      \nbackground: transparent;
-                      \nwidth: 6px;
-                      \nheight: 6px;
-                      \ncolor: transparent;
-                      \nbox-shadow: ${this.renderText(grid.tiles)} 
-                   \n}
-                   \n
-                    \n@supports (-moz-appearance: meterbar) {
-                      \n.nes-${slugify(
+                    )}::before {\nposition: absolute;\ntop: -6px;\nleft: -6px;\ncontent: "";\nbackground: transparent;\nwidth: ${this.state.tileSize}px;\nheight: ${this.state.tileSize}px;\ncolor: transparent;\nbox-shadow: ${this.renderText(grid.tiles)}\n}
+                    \n@supports (-moz-appearance: meterbar) {\n.nes-${slugify(
                         this.state.name.toLowerCase(),
                         "-"
-                      )}::before {
-                        \nbox-shadow: ${this.renderTextMoz(grid.tiles)} 
-                      \n}
-                    \n}
+                      )}::before {\nbox-shadow: ${this.renderTextMoz(grid.tiles)}\n}\n}
                     \n
-
+                `}
+              />}
+             {isSprite==="false"  && <textarea
+                className="nes-textarea is-dark"
+                rows="20"
+                cols="50"
+                value={`.nes-icon.${slugify(
+                  this.state.name.toLowerCase(),
+                  "-"
+                )}::before {\nwidth: 1px;\nheight: 1px;\ncolor: transparent;\nbox-shadow: ${this.renderText(grid.tiles)}\n}
+                
+                    \n@supports (-moz-appearance: meterbar) {\n.nes-icon.${slugify(
+                        this.state.name.toLowerCase(),
+                        "-"
+                      )}::before {\nbox-shadow: ${this.renderTextMoz(grid.tiles)}\n}\n}
+                    \n
                 `.trim()}
-              />
+              />}
+
             </div>
           </Col>
         </Row>
