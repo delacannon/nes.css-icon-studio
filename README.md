@@ -4,5 +4,5 @@ Create icons and sprites to use with NES.css, the NES-style(8bit-like) CSS Frame
 
 ### TODO
 
-- Add css animations.
-- Community gallery of icons and sprites.
+- Css animations.
+- Community gallery.
