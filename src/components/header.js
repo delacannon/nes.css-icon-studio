@@ -18,6 +18,7 @@ const Header = ({ siteTitle }) => (
       }}
     >
       <h3 style={{ margin: 0 }}>
+        <p>Elemet</p>
         <Link
           to="/"
           style={{

@@ -24,6 +24,8 @@ import slugify from "slugify"
 import { Row, Col } from "react-grid-system"
 import CopyToClipboard from "react-copy-to-clipboard"
 
+import SEO from "../components/seo"
+
 class ColorPicker extends React.Component {
   constructor(props) {
     super(props)
@@ -200,6 +202,24 @@ class ColorPicker extends React.Component {
     this.checkGridSize()
     return (
       <Layout>
+        <SEO
+          title={`PixelBox Studio | Create icons and sprites easily for NES.css framework`}
+          keywords={[
+            "pixelart",
+            "css",
+            "pixel",
+            "nintendo",
+            "famicom",
+            "boxsahdow",
+            "box-sahdow",
+            "box-shadow pixelart",
+            "css pixelart",
+            "nes",
+            "css framework",
+            "8bit",
+            "retro",
+          ]}
+        />
         <Row>
           <Col>
             <div className="nes-container with-title is-rounded">
@@ -416,7 +436,6 @@ class ColorPicker extends React.Component {
             </div>
           </Col>
         </Row>
-
         <br />
         <Row>
           <Col>
