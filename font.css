@@ -1,35 +1,23 @@
+@import url("https://fonts.googleapis.com/css?family=Press+Start+2P");
 
-@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
-
-html, body, pre, code, kbd, samp {
-          font-family: "Press Start 2P";
-      }
-
-
-.nes-test{
-position: relative;
-display: inline-block;
-width: 48px;
-height: 48px;
+html,
+body,
+pre,
+code,
+kbd,
+samp {
+	font-family: "Press Start 2P";
 }
-                    
-.nes-test::before {
-position: absolute;
-top: -6px;
-left: -6px;
-content: "";
-background: transparent;
-width: 6px;
-height: 6px;
+
+
+.nes-icon.file::before {
+width: 1px;
+height: 1px;
 color: transparent;
-box-shadow:  6px 6px, 12px 6px, 18px 6px, 24px 6px, 30px 6px, 36px 6px, 42px 6px, 48px 6px, 6px 12px, 12px 12px, 18px 12px, 24px 12px, 30px 12px, 36px 12px, 42px 12px, 48px 12px, 6px 18px, 12px 18px, 18px 18px, 24px 18px, 30px 18px, 36px 18px, 42px 18px, 48px 18px, 6px 24px, 12px 24px, 18px 24px, 24px 24px#000000, 30px 24px, 36px 24px, 42px 24px, 48px 24px, 6px 30px, 12px 30px, 18px 30px, 24px 30px, 30px 30px#000000, 36px 30px#000000, 42px 30px, 48px 30px, 6px 36px, 12px 36px, 18px 36px, 24px 36px, 30px 36px, 36px 36px#000000, 42px 36px, 48px 36px, 6px 42px, 12px 42px, 18px 42px, 24px 42px#000000, 30px 42px#000000, 36px 42px#000000, 42px 42px, 48px 42px, 6px 48px, 12px 48px, 18px 48px, 24px 48px, 30px 48px#000000, 36px 48px, 42px 48px, 48px 48px;
+box-shadow:  1px 1px , 2px 1px #000000, 3px 1px #000000, 4px 1px #000000, 5px 1px #000000, 6px 1px #000000, 7px 1px , 8px 1px , 1px 2px , 2px 2px #000000, 3px 2px , 4px 2px , 5px 2px , 6px 2px #000000, 7px 2px #000000, 8px 2px , 1px 3px , 2px 3px #000000, 3px 3px , 4px 3px , 5px 3px , 6px 3px , 7px 3px #000000, 8px 3px , 1px 4px , 2px 4px #000000, 3px 4px , 4px 4px #000000, 5px 4px #000000, 6px 4px , 7px 4px #000000, 8px 4px , 1px 5px , 2px 5px #000000, 3px 5px , 4px 5px , 5px 5px , 6px 5px , 7px 5px #000000, 8px 5px , 1px 6px , 2px 6px #000000, 3px 6px , 4px 6px #000000, 5px 6px #000000, 6px 6px , 7px 6px #000000, 8px 6px , 1px 7px , 2px 7px #000000, 3px 7px , 4px 7px , 5px 7px , 6px 7px , 7px 7px #000000, 8px 7px , 1px 8px , 2px 8px #000000, 3px 8px #000000, 4px 8px #000000, 5px 8px #000000, 6px 8px #000000, 7px 8px #000000, 8px 8px ;
 }
-                    
 @supports (-moz-appearance: meterbar) {
-.nes-test::before {
-box-shadow:  6px 6px 0 0.020em, 12px 6px 0 0.020em, 18px 6px 0 0.020em, 24px 6px 0 0.020em, 30px 6px 0 0.020em, 36px 6px 0 0.020em, 42px 6px 0 0.020em, 48px 6px 0 0.020em, 6px 12px 0 0.020em, 12px 12px 0 0.020em, 18px 12px 0 0.020em, 24px 12px 0 0.020em, 30px 12px 0 0.020em, 36px 12px 0 0.020em, 42px 12px 0 0.020em, 48px 12px 0 0.020em, 6px 18px 0 0.020em, 12px 18px 0 0.020em, 18px 18px 0 0.020em, 24px 18px 0 0.020em, 30px 18px 0 0.020em, 36px 18px 0 0.020em, 42px 18px 0 0.020em, 48px 18px 0 0.020em, 6px 24px 0 0.020em, 12px 24px 0 0.020em, 18px 24px 0 0.020em, 24px 24px 0 0.020em#000000, 30px 24px 0 0.020em, 36px 24px 0 0.020em, 42px 24px 0 0.020em, 48px 24px 0 0.020em, 6px 30px 0 0.020em, 12px 30px 0 0.020em, 18px 30px 0 0.020em, 24px 30px 0 0.020em, 30px 30px 0 0.020em#000000, 36px 30px 0 0.020em#000000, 42px 30px 0 0.020em, 48px 30px 0 0.020em, 6px 36px 0 0.020em, 12px 36px 0 0.020em, 18px 36px 0 0.020em, 24px 36px 0 0.020em, 30px 36px 0 0.020em, 36px 36px 0 0.020em#000000, 42px 36px 0 0.020em, 48px 36px 0 0.020em, 6px 42px 0 0.020em, 12px 42px 0 0.020em, 18px 42px 0 0.020em, 24px 42px 0 0.020em#000000, 30px 42px 0 0.020em#000000, 36px 42px 0 0.020em#000000, 42px 42px 0 0.020em, 48px 42px 0 0.020em, 6px 48px 0 0.020em, 12px 48px 0 0.020em, 18px 48px 0 0.020em, 24px 48px 0 0.020em, 30px 48px 0 0.020em#000000, 36px 48px 0 0.020em, 42px 48px 0 0.020em, 48px 48px 0 0.020em;
+.nes-icon.file::before {
+box-shadow:  1px 1px 0 0.020em, 2px 1px 0 0.020em#000000, 3px 1px 0 0.020em#000000, 4px 1px 0 0.020em#000000, 5px 1px 0 0.020em#000000, 6px 1px 0 0.020em#000000, 7px 1px 0 0.020em, 8px 1px 0 0.020em, 1px 2px 0 0.020em, 2px 2px 0 0.020em#000000, 3px 2px 0 0.020em, 4px 2px 0 0.020em, 5px 2px 0 0.020em, 6px 2px 0 0.020em#000000, 7px 2px 0 0.020em#000000, 8px 2px 0 0.020em, 1px 3px 0 0.020em, 2px 3px 0 0.020em#000000, 3px 3px 0 0.020em, 4px 3px 0 0.020em, 5px 3px 0 0.020em, 6px 3px 0 0.020em, 7px 3px 0 0.020em#000000, 8px 3px 0 0.020em, 1px 4px 0 0.020em, 2px 4px 0 0.020em#000000, 3px 4px 0 0.020em, 4px 4px 0 0.020em#000000, 5px 4px 0 0.020em#000000, 6px 4px 0 0.020em, 7px 4px 0 0.020em#000000, 8px 4px 0 0.020em, 1px 5px 0 0.020em, 2px 5px 0 0.020em#000000, 3px 5px 0 0.020em, 4px 5px 0 0.020em, 5px 5px 0 0.020em, 6px 5px 0 0.020em, 7px 5px 0 0.020em#000000, 8px 5px 0 0.020em, 1px 6px 0 0.020em, 2px 6px 0 0.020em#000000, 3px 6px 0 0.020em, 4px 6px 0 0.020em#000000, 5px 6px 0 0.020em#000000, 6px 6px 0 0.020em, 7px 6px 0 0.020em#000000, 8px 6px 0 0.020em, 1px 7px 0 0.020em, 2px 7px 0 0.020em#000000, 3px 7px 0 0.020em, 4px 7px 0 0.020em, 5px 7px 0 0.020em, 6px 7px 0 0.020em, 7px 7px 0 0.020em#000000, 8px 7px 0 0.020em, 1px 8px 0 0.020em, 2px 8px 0 0.020em#000000, 3px 8px 0 0.020em#000000, 4px 8px 0 0.020em#000000, 5px 8px 0 0.020em#000000, 6px 8px 0 0.020em#000000, 7px 8px 0 0.020em#000000, 8px 8px 0 0.020em;
 }
 }
-                    
-
-                

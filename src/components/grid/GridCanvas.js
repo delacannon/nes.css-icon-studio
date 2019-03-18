@@ -88,6 +88,7 @@ class GridCanvas extends Component {
 			>
 				{grid.tiles.map((t, i) => (
 					<Tile
+						inverted={this.props.inverted}
 						key={i}
 						x={t.x}
 						y={t.y}

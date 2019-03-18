@@ -22,6 +22,7 @@ import { css } from "@emotion/core"
 import slugify from "slugify"
 
 import { Row, Col } from "react-grid-system"
+import CopyToClipboard from "react-copy-to-clipboard"
 
 class ColorPicker extends React.Component {
   constructor(props) {
@@ -34,8 +35,13 @@ class ColorPicker extends React.Component {
       name: "test",
       disabled: false,
       isSprite: "true",
-      tileSize:6,
+      tileSize: 6,
+      scale: 1,
+      copied: false,
+      inverted: false,
     }
+
+    this.textarea = React.createRef()
   }
   componentDidMount() {
     this.props.changeColor({ background: "#000000" })
@@ -49,7 +55,7 @@ class ColorPicker extends React.Component {
     var str = ""
 
     tiles.forEach((e, i) => {
-      str += ` ${e.x * this.state.tileSize}px ${e.y * this.state.tileSize}px${
+      str += ` ${e.x * this.state.tileSize}px ${e.y * this.state.tileSize}px ${
         e.color === "transparent" ? `` : e.color
       }${i === tiles.length - 1 ? `;` : `,`}`
     })
@@ -61,7 +67,8 @@ class ColorPicker extends React.Component {
     var str = ""
 
     tiles.forEach((e, i) => {
-      str += ` ${e.x * this.state.tileSize}px ${e.y * this.state.tileSize}px 0 0.020em${
+      str += ` ${e.x * this.state.tileSize}px ${e.y *
+        this.state.tileSize}px 0 0.020em${
         e.color === "transparent" ? `` : e.color
       }${i === tiles.length - 1 ? `;` : `,`}`
     })
@@ -72,8 +79,6 @@ class ColorPicker extends React.Component {
   changeHandler(e) {
     this.setState({ [e.target.name]: e.target.value })
   }
-
- 
 
   checkGridSize() {
     if (this.state.cols > 16) {
@@ -100,18 +105,28 @@ class ColorPicker extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.grid.tiles !== prevProps.grid.tiles) {
+      this.setState({
+        copied: false,
+      })
+    }
+  }
+
   render() {
     const { grid } = this.props
-    const {isSprite, gridSize ,tileSize} =this.state
+    const { isSprite, gridSize, tileSize, copied, name, inverted } = this.state
 
-    const Canvas = styled.div`
+    const CanvasSprite = styled.div`
       display: block;
       position: relative;
       display: inline-block;
       width: ${grid.cols * 6 + 3}px;
       height: ${grid.rows * 6 + 3}px;
+      margin-top: ${grid.cols}px;
+      margin-bottom: ${grid.cols}px !important;
       border: 2px solid #000;
-      transform: scale(1);
+      transform: scale(${this.state.scale});
       &::before {
         position: absolute;
         top: -6px;
@@ -125,9 +140,58 @@ class ColorPicker extends React.Component {
       }
     `
 
+    const CanvasIcon = styled.div`
+      display: block;
+      position: relative;
+      display: inline-block;
+      margin-top: ${grid.cols * 3}px;
+      margin-bottom: ${grid.cols * 3}px !important;
+      width: ${grid.cols * 3}px;
+      height: ${grid.cols * 3}px;
+      border: 1px solid #000;
+      transform: scale(3);
+      &::before {
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        content: "";
+        width: 1px;
+        height: 1px;
+        transform: scale(3);
+        background: transparent;
+        color: transparent;
+        box-shadow: ${this.renderText(grid.tiles)};
+      }
+    `
+
     const Button = styled.button`
       margin-left: 8px;
     `
+
+    const SpriteString = `.nes-${slugify(
+      name.toLowerCase(),
+      "-"
+    )} {\nposition: relative;\ndisplay: inline-block;\nwidth: ${grid.cols *
+      tileSize}px;\nheight: ${grid.rows * tileSize}px;\n}\n.nes-${slugify(
+      name.toLowerCase(),
+      "-"
+    )}::before {\nposition: absolute;\ntop: -6px;\nleft: -6px;\ncontent: "";\nbackground: transparent;\nwidth: ${tileSize}px;\nheight: ${tileSize}px;\ncolor: transparent;\nbox-shadow: ${this.renderText(
+      grid.tiles
+    )}\n}\n@supports (-moz-appearance: meterbar) {\n.nes-${slugify(
+      name.toLowerCase(),
+      "-"
+    )}::before {\nbox-shadow: ${this.renderTextMoz(grid.tiles)}\n}\n}\n`
+
+    const IconString = `.nes-icon.${slugify(
+      name.toLowerCase(),
+      "-"
+    )}::before {\nwidth: 1px;\nheight: 1px;\ncolor: transparent;\nbox-shadow: ${this.renderText(
+      grid.tiles
+    )}\n}\n@supports (-moz-appearance: meterbar) {\n.nes-icon.${slugify(
+      name.toLowerCase(),
+      "-"
+    )}::before {\nbox-shadow: ${this.renderTextMoz(grid.tiles)}\n}\n}\n`
+
     this.checkGridSize()
     return (
       <Layout>
@@ -152,11 +216,16 @@ class ColorPicker extends React.Component {
         <br />
         <Row>
           <Col lg={8} md={6} xs={12} sm={12}>
-            <div className="nes-container with-title is-rounded is-centered">
+            <div
+              className={`nes-container with-title is-rounded is-centered ${inverted &&
+                "is-dark"}`}
+            >
               <p className="title">
                 {!gridSize
                   ? `Set Grid Size`
-                  : `${isSprite==="true" ? `Sprite` : `Icon`} Grid ${grid.cols}x${grid.rows}`}
+                  : `${isSprite === "true" ? `Sprite` : `Icon`} Grid ${
+                      grid.cols
+                    }x${grid.rows}`}
               </p>
               {!gridSize && (
                 <div>
@@ -186,31 +255,40 @@ class ColorPicker extends React.Component {
                     />
                     <br />
                   </div>
-                  <div >
-                  <br/>
+                  <div>
+                    <br />
                     <label>
-  <input type="radio" class="nes-radio" name="isSprite" value={true}  onChange={
-    (e) => {this.changeHandler(e)
-    this.setState({
-      tileSize:6
-    })
-  }
-  } />
-  <span>Sprite or</span>
-</label>
-<label>
-  <input type="radio" class="nes-radio" name="isSprite" value={false}  onChange={
-    (e) => {this.changeHandler(e)
-    this.setState({
-      tileSize:1
-    })
-  }
-  }/>
-  <span>Icon</span>
-</label>  
-
+                      <input
+                        type="radio"
+                        class="nes-radio"
+                        name="isSprite"
+                        value={true}
+                        onChange={e => {
+                          this.changeHandler(e)
+                          this.setState({
+                            tileSize: 6,
+                          })
+                        }}
+                      />
+                      <span>Sprite or</span>
+                    </label>
+                    <label>
+                      <input
+                        type="radio"
+                        class="nes-radio"
+                        name="isSprite"
+                        value={false}
+                        onChange={e => {
+                          this.changeHandler(e)
+                          this.setState({
+                            tileSize: 1,
+                          })
+                        }}
+                      />
+                      <span>Icon</span>
+                    </label>
                   </div>
-                  <br/>
+                  <br />
                   <Button
                     type="button"
                     className="nes-btn is-primary"
@@ -218,8 +296,6 @@ class ColorPicker extends React.Component {
                       this.setState({
                         gridSize: !gridSize,
                       })
-                      //console.log(this.state.rows, this.state.cols)
-
                       this.props.addOneRow(parseInt(this.state.rows))
                       this.props.addOneCol(parseInt(this.state.cols))
                     }}
@@ -238,7 +314,7 @@ class ColorPicker extends React.Component {
               )}
               {gridSize && (
                 <span>
-                  <GridCanvas />
+                  <GridCanvas inverted={this.state.inverted} />
                 </span>
               )}
             </div>
@@ -253,52 +329,79 @@ class ColorPicker extends React.Component {
               />
             </div>
             <br />
-            <div className="nes-container with-title is-rounded is-centered">
-              <p className="title">Output</p>
-              <Canvas />
-            </div>
+            {gridSize && (
+              <div className="nes-container with-title is-rounded is-centered">
+                <p className="title">Output</p>
+                {isSprite === "true" ? <CanvasSprite /> : <CanvasIcon />}
+              </div>
+            )}
           </Col>
         </Row>
         <br />
-        <Row>
-          <Col lg={8} md={4} xs={6} sm={6}>
-            <Button
-              type="button"
-              className="nes-btn"
-              onClick={() => {
-                this.props.showGrid(!grid.grid)
-              }}
-            >
-              Grid {grid.grid ? `Off` : `On`}
-            </Button>
-            <Button
-              type="button"
-              className="nes-btn is-warning"
-              onClick={() => {
-                this.setState({
-                  gridSize: !gridSize,
-                })
-                this.props.resetGrid()
-              }}
-            >
-              Reset
-            </Button>
-          </Col>
-          <Col lg={4} md={4} xs={6} sm={6}>
-              <button type="button" className="nes-btn is-success">
-                Copy CSS
-              </button>
-          </Col>
-        </Row>
+
+        {gridSize && (
+          <Row>
+            <Col lg={8} md={4} xs={6} sm={6}>
+              <Button
+                type="button"
+                className="nes-btn"
+                onClick={() => {
+                  this.props.showGrid(!grid.grid)
+                }}
+              >
+                Grid {grid.grid ? `Off` : `On`}
+              </Button>
+              <Button
+                type="button"
+                className={`nes-btn ${!inverted && `is-primary`}`}
+                onClick={() => {
+                  this.setState({
+                    inverted: !inverted,
+                  })
+                }}
+              >
+                {inverted ? `Light BG` : `Dark BG`}
+              </Button>
+              <Button
+                type="button"
+                className="nes-btn is-warning"
+                onClick={() => {
+                  this.setState({
+                    gridSize: !gridSize,
+                  })
+                  this.props.resetGrid()
+                }}
+              >
+                Reset
+              </Button>
+            </Col>
+            <Col lg={4} md={4} xs={6} sm={6}>
+              <CopyToClipboard
+                text={this.textarea.current.innerHTML}
+                onCopy={() => this.setState({ copied: true })}
+              >
+                <button
+                  type="button"
+                  className={`nes-btn ${copied ? `is-success` : `is-primary`}`}
+                >
+                  <i className="nes-icon file is-large" />{" "}
+                  {copied ? `Copied!` : `Copy CSS`}
+                </button>
+              </CopyToClipboard>
+            </Col>
+          </Row>
+        )}
         <br />
         <Row>
           <Col lg={12} md={12} xs={12} sm={12}>
             <div className="nes-field">
-              <label>{isSprite==="true" ? `Sprite Name:` : `Icon Name`}</label>
+              <label>
+                {isSprite === "true" ? `Sprite Name:` : `Icon Name`}
+              </label>
               <input
                 type="text"
                 className="nes-input"
-                placeholder={isSprite==="true" ? `sprite-name:` : `icon`}
+                placeholder={isSprite === "true" ? `sprite-name:` : `icon`}
                 name="name"
                 onChange={this.changeHandler.bind(this)}
               />
@@ -311,54 +414,21 @@ class ColorPicker extends React.Component {
           <Col>
             <div className="nes-container with-title is-dark">
               <p className="title">Css Output</p>
-              {isSprite==="true"  && <textarea
+              <textarea
+                ref={this.textarea}
                 className="nes-textarea is-dark"
                 rows="20"
                 cols="50"
-                value={`.nes-${slugify(
-                  this.state.name.toLowerCase(),
-                  "-"
-                )}{\nposition: relative;\ndisplay: inline-block;\nwidth: ${grid.cols *
-                  this.state.tileSize}px;\nheight: ${grid.rows * this.state.tileSize}px;\n}
-                    \n.nes-${slugify(
-                      this.state.name.toLowerCase(),
-                      "-"
-                    )}::before {\nposition: absolute;\ntop: -6px;\nleft: -6px;\ncontent: "";\nbackground: transparent;\nwidth: ${this.state.tileSize}px;\nheight: ${this.state.tileSize}px;\ncolor: transparent;\nbox-shadow: ${this.renderText(grid.tiles)}\n}
-                    \n@supports (-moz-appearance: meterbar) {\n.nes-${slugify(
-                        this.state.name.toLowerCase(),
-                        "-"
-                      )}::before {\nbox-shadow: ${this.renderTextMoz(grid.tiles)}\n}\n}
-                    \n
-                `}
-              />}
-             {isSprite==="false"  && <textarea
-                className="nes-textarea is-dark"
-                rows="20"
-                cols="50"
-                value={`.nes-icon.${slugify(
-                  this.state.name.toLowerCase(),
-                  "-"
-                )}::before {\nwidth: 1px;\nheight: 1px;\ncolor: transparent;\nbox-shadow: ${this.renderText(grid.tiles)}\n}
-                
-                    \n@supports (-moz-appearance: meterbar) {\n.nes-icon.${slugify(
-                        this.state.name.toLowerCase(),
-                        "-"
-                      )}::before {\nbox-shadow: ${this.renderTextMoz(grid.tiles)}\n}\n}
-                    \n
-                `.trim()}
-              />}
-
+                value={
+                  isSprite === "true" ? SpriteString.trim() : IconString.trim()
+                }
+              />
+              )}
             </div>
           </Col>
         </Row>
         <br />
-        <div className="nes-container with-title">
-          <p className="title">Examples</p>
-          <div className="icon-list">
-            <i className="nes-phone" />
-            <i className="nes-test" />
-          </div>
-        </div>
+        <i className="nes-tetris" />
       </Layout>
     )
   }

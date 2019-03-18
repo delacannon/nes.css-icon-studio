@@ -30,6 +30,14 @@ class Tile extends Component {
     })
   }
 
+  removeTile(e) {
+    const { x, y, getTile, id, grid } = this.props
+    getTile(x, y, id, "transparent")
+    this.setState({
+      color: "transparent",
+    })
+  }
+
   render() {
     const { x, y, getTile, id, grid } = this.props
 
@@ -38,7 +46,9 @@ class Tile extends Component {
         key={id}
         style={{
           backgroundColor: `${this.state.color}`,
-          border: `${!grid.grid ? 0 : 2}px solid black`,
+          border: `${!grid.grid ? 0 : 2}px solid ${
+            this.props.inverted ? `white` : `black`
+          }`,
         }}
         x={x}
         y={y}
@@ -47,9 +57,7 @@ class Tile extends Component {
         onMouseDown={this.onMouseDown.bind(this)}
         onContextMenu={e => {
           e.preventDefault()
-          this.setState({
-            rightClick: true,
-          })
+          this.removeTile(e)
         }}
       />
     )

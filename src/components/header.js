@@ -25,7 +25,7 @@ const Header = ({ siteTitle }) => (
             textDecoration: `none`,
           }}
         >
-          {siteTitle}
+          <i class="nes-logo" /> {siteTitle}
         </Link>
       </h3>
     </div>
