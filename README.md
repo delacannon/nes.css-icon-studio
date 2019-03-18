@@ -1,8 +1,8 @@
 ## Nes.css Pixelbox Studio
 
-Create icons and sprites in css to use with NES.css, the NES-style(8bit-like) CSS Framework.
+Create icons and sprites to use with NES.css, the NES-style(8bit-like) CSS Framework.
 
-###TODO
+### TODO
 
-- Add animations.
-- Share your sprites and icons code in css.
+- Add css animations.
+- Community gallery of icons and sprites.
