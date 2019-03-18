@@ -125,7 +125,8 @@ class ColorPicker extends React.Component {
       height: ${grid.rows * 6 + 3}px;
       margin-top: ${grid.cols}px;
       margin-bottom: ${grid.cols}px !important;
-      border: 2px solid #000;
+      border: 2px solid ${inverted ? `#FFF` : `#000`};
+      background: ${!inverted ? `#FFF` : `#000`};
       transform: scale(${this.state.scale});
       &::before {
         position: absolute;
@@ -149,6 +150,7 @@ class ColorPicker extends React.Component {
       width: ${grid.cols * 3}px;
       height: ${grid.cols * 3}px;
       border: 1px solid #000;
+      background: ${!inverted ? `#FFF` : `#000`};
       transform: scale(3);
       &::before {
         position: absolute;
@@ -185,12 +187,15 @@ class ColorPicker extends React.Component {
     const IconString = `.nes-icon.${slugify(
       name.toLowerCase(),
       "-"
-    )}::before {\nwidth: 1px;\nheight: 1px;\ncolor: transparent;\nbox-shadow: ${this.renderText(
+    )}::before{\nwidth: 1px;\nheight: 1px;\ncolor: transparent;${grid.cols <=
+      12 &&
+      grid.rows <= 12 &&
+      `\ntransform: scale(2);`}\nbox-shadow: ${this.renderText(
       grid.tiles
     )}\n}\n@supports (-moz-appearance: meterbar) {\n.nes-icon.${slugify(
       name.toLowerCase(),
       "-"
-    )}::before {\nbox-shadow: ${this.renderTextMoz(grid.tiles)}\n}\n}\n`
+    )}::before{\nbox-shadow: ${this.renderTextMoz(grid.tiles)}\n}\n}\n`
 
     this.checkGridSize()
     return (
@@ -236,7 +241,7 @@ class ColorPicker extends React.Component {
                       pattern="\d*"
                       maxlength="2"
                       className="nes-input"
-                      name="rows"
+                      name="cols"
                       placeholder="8"
                       onChange={this.changeHandler.bind(this)}
                     />
@@ -249,7 +254,7 @@ class ColorPicker extends React.Component {
                       className="nes-input"
                       pattern="\d*"
                       maxlength="2"
-                      name="cols"
+                      name="rows"
                       placeholder="8"
                       onChange={this.changeHandler.bind(this)}
                     />
@@ -314,7 +319,7 @@ class ColorPicker extends React.Component {
               )}
               {gridSize && (
                 <span>
-                  <GridCanvas inverted={this.state.inverted} />
+                  <GridCanvas inverted={inverted} />
                 </span>
               )}
             </div>
@@ -378,13 +383,16 @@ class ColorPicker extends React.Component {
             <Col lg={4} md={4} xs={6} sm={6}>
               <CopyToClipboard
                 text={this.textarea.current.innerHTML}
-                onCopy={() => this.setState({ copied: true })}
+                onCopy={() => {
+                  this.setState({ copied: true })
+                  console.log(this.textarea.current.innerHTML)
+                }}
               >
                 <button
                   type="button"
                   className={`nes-btn ${copied ? `is-success` : `is-primary`}`}
                 >
-                  <i className="nes-icon file is-large" />{" "}
+                  <i className="nes-icon file-white is-small" />{" "}
                   {copied ? `Copied!` : `Copy CSS`}
                 </button>
               </CopyToClipboard>
@@ -419,9 +427,7 @@ class ColorPicker extends React.Component {
                 className="nes-textarea is-dark"
                 rows="20"
                 cols="50"
-                value={
-                  isSprite === "true" ? SpriteString.trim() : IconString.trim()
-                }
+                value={isSprite === "true" ? SpriteString : IconString}
               />
               )}
             </div>

@@ -39,7 +39,7 @@ class Tile extends Component {
   }
 
   render() {
-    const { x, y, getTile, id, grid } = this.props
+    const { x, y, getTile, id, grid, inverted } = this.props
 
     return (
       <div
@@ -47,7 +47,7 @@ class Tile extends Component {
         style={{
           backgroundColor: `${this.state.color}`,
           border: `${!grid.grid ? 0 : 2}px solid ${
-            this.props.inverted ? `white` : `black`
+            inverted ? `white` : `black`
           }`,
         }}
         x={x}
