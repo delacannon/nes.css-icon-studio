@@ -1,6 +1,6 @@
-# Nes.css Pixelbox Studio
+## Nes.css Pixelbox Studio
 
-Create pixel icons and sprites to use with NES.css
+Create icons and sprites in css to use with NES.css, the NES-style(8bit-like) CSS Framework.
 
 ###TODO
 
