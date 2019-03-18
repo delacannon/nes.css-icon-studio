@@ -24,8 +24,6 @@ import slugify from "slugify"
 import { Row, Col } from "react-grid-system"
 import CopyToClipboard from "react-copy-to-clipboard"
 
-import SEO from "../components/seo"
-
 class ColorPicker extends React.Component {
   constructor(props) {
     super(props)
