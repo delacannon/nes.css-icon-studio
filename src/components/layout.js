@@ -49,6 +49,12 @@ const Layout = ({ children }) => (
             <br />
             Made with <i className="nes-icon heart" /> by
             <a href="https://twitter.com/delacannon"> @delacannon</a>
+            <br />
+            <br />
+            Share{" "}
+            <a href="https://twitter.com/share?url=https://pixelbox.netlify.com', 'twitter-popup', 'height=350,width=600">
+              <i className="nes-icon twitter" />
+            </a>
           </footer>
         </div>
       </>
