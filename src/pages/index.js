@@ -429,7 +429,6 @@ class ColorPicker extends React.Component {
                 cols="50"
                 value={isSprite === "true" ? SpriteString : IconString}
               />
-              )}
             </div>
           </Col>
         </Row>

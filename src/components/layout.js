@@ -34,10 +34,21 @@ const Layout = ({ children }) => (
           }}
         >
           <main>{children}</main>
-          <footer>
-            © {new Date().getFullYear()}, Built with
+          <footer style={{ textAlign: "center" }}>
+            {new Date().getFullYear()}, View repo on
             {` `}
-            <a href="https://www.gatsbyjs.org">Gatsby</a>
+            <a href="https://github.com/delacannon/nes.css-icon-studio">
+              Github
+            </a>
+            <br />
+            <br />
+            <a href="https://github.com/delacannon/nes.css-icon-studio">
+              <i className="nes-octocat animate" />
+            </a>
+            <br />
+            <br />
+            Made with <i className="nes-icon heart" /> by
+            <a href="https://twitter.com/delacannon"> @delacannon</a>
           </footer>
         </div>
       </>

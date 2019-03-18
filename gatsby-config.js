@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
     title: `NES.css Pixelbox Studio v0.8`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    description: `Create icons and sprites to use with NES.css the NES-style(8bit-like) CSS Framework.`,
+    author: `@delacannon`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
